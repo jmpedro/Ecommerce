@@ -1,0 +1,50 @@
+.top-bar {
+  background-color: $background-dark;
+  height: 100px;
+
+  //editamos las clases de Grid
+  .ui.grid {
+    margin: 0;
+    padding: 0;
+    .column {
+      padding: 0;
+    }
+  }
+
+  //&... => cogen el nombre de su clase padre, en este caso(.top-bar)
+  .top_bar_left {
+    display: flex !important;
+    align-items: center;
+
+    img {
+      height: 50px;
+      transition: all 0.5s;
+
+      &:hover {
+        transform: translateX(-15px);
+      }
+    }
+  }
+
+  .top_bar_right {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+
+    .ui.input {
+      align-items: center;
+
+      input {
+        background-color: transparent !important;
+        color: $primary;
+        border-bottom: 1px solid $primary !important;
+        width: 220px;
+        transition: width 0.7s;
+
+        &:focus {
+          width: 350px;
+        }
+      }
+    }
+  }
+}

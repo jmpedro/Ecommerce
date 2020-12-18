@@ -1,0 +1,42 @@
+.menu {
+  background-color: $background-grey-dark;
+  padding: 0;
+
+  .ui.grid {
+    margin: 0;
+  }
+
+  &_left,
+  &_right {
+    padding: 0 !important;
+    align-items: center;
+    display: flex !important;
+
+    .ui.menu {
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+      height: 100%;
+
+      .icon {
+        margin-right: 10px !important;
+        color: $primary;
+      }
+
+      .item {
+        border-radius: 0 !important;
+        color: $font-light;
+
+        &:hover {
+          background-color: $background-dark-absolute;
+          color: $font-light;
+        }
+      }
+    }
+  }
+
+  &_right {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
