@@ -4,7 +4,7 @@ import RegisterForm from './RegisterForm';
 
 export default function Auth(props) {
 
-    const { onShowModal, setTitleModal } = props;
+    const { closeModal, setTitleModal } = props;
 
     const [ login, setLogin ] = useState(true);
 
@@ -21,6 +21,6 @@ export default function Auth(props) {
         
     };
 
-    return login ? (<LoginForm showRegisterForm={showRegisterForm} />) : 
+    return login ? (<LoginForm showRegisterForm={showRegisterForm} closeModal={closeModal} />) : 
     (<RegisterForm showLoginForm={showLoginForm} />);
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import {registerUser} from '../../../api/registerUser'
+import {registerUser} from '../../../api/users';
 import { toast } from 'react-toastify';
 
 export default function RegisterForm(props) {
@@ -46,7 +46,7 @@ export default function RegisterForm(props) {
             <Form.Input type="password" name="password" placeholder="Contraseña" onChange={formik.handleChange} error={formik.errors.password} />
 
             <div className="actions">
-                <Button type="button" basic >Iniciar sesión</Button>
+                <Button type="button" basic onClick={showLoginForm} >Iniciar sesión</Button>
                 <Button type="submit" className="submit" loading={loading}>Registrar</Button>
             </div>
         </Form>

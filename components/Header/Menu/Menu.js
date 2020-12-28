@@ -9,7 +9,8 @@ export default function Menu() {
     const [showModal, setShowModal] = useState(false)
     const [titleModal, setTitleModal] = useState("Iniciar sesión");
 
-    const onShowModal = () => setShowModal(!showModal);
+    const onShowModal = () => setShowModal(true);
+    const closeModal = () => setShowModal(false)
 
     return (
         <div className="menu">
@@ -30,7 +31,7 @@ export default function Menu() {
             </Container>
 
             <BasicModal show={showModal} setShow={setShowModal} title={titleModal} size="small" >
-                <Auth  onShowModal={onShowModal} setTitleModal={setTitleModal}  />
+                <Auth  closeModal={closeModal} setTitleModal={setTitleModal}  />
             </BasicModal>
         </div>
     )
