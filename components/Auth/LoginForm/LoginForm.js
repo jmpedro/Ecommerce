@@ -3,7 +3,7 @@ import { Button, Form } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import { loginUser } from '../../../api/users';
+import { loginUser, resetPasswordUser } from '../../../api/users';
 import useAuth from '../../../hooks/useAuth';
 
 export default function LoginForm(props) {
@@ -12,8 +12,8 @@ export default function LoginForm(props) {
     const { showRegisterForm, closeModal } = props;
     const [loading, setLoading] = useState(false);
 
-    // Instanciamos la clase auth y obtenemos sus datos con object destructuring
-    const { login } = useAuth();
+    // Instanciamos el contexto useAuth y obtenemos sus datos con object destructuring
+    const { auth, login } = useAuth();    
 
     const formik = useFormik({
         initialValues: initialValues(),
@@ -24,22 +24,40 @@ export default function LoginForm(props) {
 
             const response = await loginUser(formData);
 
-            if( !response?.jwt ) {
+            if( response?.jwt ) {
                 
-                toast.error("El email o la contraseña no son correctos");
-
-            }else {
-
                 // Le pasamos a la funcion de login el json web token
                 login(response.jwt);
                 closeModal();
+               
+            }else {
+
+                toast.error("El email o la contraseña no son correctos");
 
             }
 
             setLoading(false)
 
         }
-    })
+    });
+
+    // Funcion para resetear el password
+    const resetPassword = () => {
+
+        // Inicializamos todos los errores a vacio
+        formik.setErrors({});
+
+        // Cogemos el valor del correo para hacer la validacion
+        const validateEmail = yup.string().email().required();
+
+        // Hacemos la validación para comprobar si existe ese correo
+        if( !validateEmail.isValidSync(formik.values.identifier) ) {
+            formik.setErrors({ identifier: true });
+        }else {
+            resetPasswordUser(formik.values.identifier);
+        }
+
+    }
 
     return (
         <Form className="formulario" onSubmit={formik.handleSubmit}>
@@ -64,7 +82,7 @@ export default function LoginForm(props) {
                 
                 <div>
                     <Button className="submit" type="submit" loading={loading} >Entrar</Button>
-                    <Button type="button">¿Has olvidado la contraseña?</Button>
+                    <Button type="button" onClick={resetPassword}>¿Has olvidado la contraseña?</Button>
                 </div>
 
             </div>

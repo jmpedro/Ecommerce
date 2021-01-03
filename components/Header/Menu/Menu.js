@@ -1,13 +1,29 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Menu as MenuWeb, Label, Grid, Icon } from 'semantic-ui-react';
 import Link from 'next/link';
 import BasicModal from '../../Modal/BasicModal';
 import Auth from '../../Auth';
+import useAuth from '../../../hooks/useAuth';
+import { getMeApi } from '../../../api/users';
 
 export default function Menu() {
 
     const [showModal, setShowModal] = useState(false)
     const [titleModal, setTitleModal] = useState("Iniciar sesión");
+    // declaramos un useState para setear los valores al usuario 
+    const [user, setUser] = useState(undefined);
+    // obtenemos los valores del inicio de sesion y de logout desde useAuth
+    const { auth, logout } = useAuth();
+
+    // hacemos un useEffect asincronico y que se llame a si mismo para obtener los datos del usuario 
+    useEffect(() => {
+        (async () => {
+
+            const response = await getMeApi(logout);
+            setUser(response);
+
+        })();
+    }, [auth])// Este useEffect se ejecutara cuando el usuario sea distinto(valor obtenido de auth)
 
     const onShowModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false)
@@ -24,7 +40,7 @@ export default function Menu() {
                     </Grid.Column>
                     <Grid.Column className="menu_right" width={10} >
 
-                        <Options onShowModal= {onShowModal} />
+                        { user !== undefined && <Options onShowModal={onShowModal} user={user} logout={logout} /> }
 
                     </Grid.Column>
                 </Grid>
@@ -60,14 +76,56 @@ function Multiplatforms() {
 // Menu de opciones
 function Options(props) {
 
-    const { onShowModal } = props;
+    const { onShowModal, user, logout } = props;
 
     return (
         <MenuWeb>
-            <MenuWeb.Item onClick={onShowModal}>
+            { 
+            user ? (<>
+            
+            {/* Pedidos */}
+            <Link href="/orders">
+               <MenuWeb.Item as="a">
+                   <Icon name="game"/>
+                   Mis pedidos
+                </MenuWeb.Item>
+            </Link>
+
+            {/* Deseados */}
+            <Link href="/whislist">
+               <MenuWeb.Item as="a">
+                   <Icon name="heart outline"/>
+                   Deseados
+                </MenuWeb.Item>
+            </Link>
+
+            {/* Configuracion de cuenta */}
+            <Link href="/account">
+               <MenuWeb.Item as="a" >
+                   <Icon name="user outline"/>
+                   {user.name} {user.lastname}
+                </MenuWeb.Item>
+            </Link>
+
+            {/* Carrito */}
+            <Link href="/cart">
+               <MenuWeb.Item as="a" className="m-0">
+                   <Icon name="cart"/>
+                   
+                </MenuWeb.Item>
+            </Link>
+
+
+            <MenuWeb.Item className="m-0" onClick={logout}><Icon name="power off"/></MenuWeb.Item>
+            
+            </>)
+             :(
+             <MenuWeb.Item onClick={onShowModal}>
                 <Icon name="user outline" />
                 Mi cuenta
-            </MenuWeb.Item>
+            </MenuWeb.Item> )
+            
+            }
         </MenuWeb>
     );
 
