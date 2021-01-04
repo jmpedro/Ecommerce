@@ -107,3 +107,29 @@ export async function getMeApi(logout) {
     }
 
 }
+
+/**** ACTUALIZAR LOS DATOS DEL USUARIO LOGEADO ****/
+export async function updateAccount(idUser, data, logout) {
+
+    try {
+        
+        const url = `${BASE_PATH}users/${idUser}`;
+
+        const params = {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        };
+
+        const result = await authFetch(url, params, logout);
+
+        return result ? result : null;
+
+
+    } catch (error) {
+        return error;
+    }
+
+}

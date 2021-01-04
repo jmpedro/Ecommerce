@@ -3,6 +3,7 @@ import BasicLayout from '../layouts/BasicLayout';
 import { useRouter } from 'next/router';
 import { getMeApi } from '../api/users';
 import useAuth from '../hooks/useAuth';
+import ChangeAccount from '../components/Account';
 
 export default function Account() {
 
@@ -30,13 +31,15 @@ export default function Account() {
 
     return (
         <BasicLayout className="account">
-            <Configuration />
+            <Configuration user={user} logout={logout} />
         </BasicLayout>
     )
 }
 
 // Configuracion de la cuenta
-function Configuration() {
+function Configuration(props) {
+
+    const { user, logout } = props;
 
     return (
         <div className="account_configuration">
@@ -44,7 +47,7 @@ function Configuration() {
                 Configuración
             </div>
             <div className="data">
-                Formulario de Configuración
+                <ChangeAccount user={user} logout={logout} />
             </div>
         </div>
     );
