@@ -1,0 +1,9 @@
+form {
+  .actions {
+    justify-content: flex-end !important;
+
+    .ui.button.submit {
+      margin: 0 !important;
+    }
+  }
+}

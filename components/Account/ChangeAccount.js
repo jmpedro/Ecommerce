@@ -7,7 +7,7 @@ import { updateAccount } from '../../api/users';
 
 export default function ChangeAccount(props) {
 
-    const { user, logout } = props;
+    const { user, logout, setReloadUser } = props;
     const [loading, setLoading] = useState(false)
 
     const formik = useFormik({
@@ -24,6 +24,8 @@ export default function ChangeAccount(props) {
 
             }else {
 
+                // seteamos setReloadUser a true, para que se ejecute el useEffect de app.js donde se establecen los valores del usuario
+                setReloadUser(true);
                 toast.success("¡Su perfil ha sido actualizado!");
 
             }

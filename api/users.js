@@ -109,6 +109,7 @@ export async function getMeApi(logout) {
 }
 
 /**** ACTUALIZAR LOS DATOS DEL USUARIO LOGEADO ****/
+// Nombre y Apellidos
 export async function updateAccount(idUser, data, logout) {
 
     try {
@@ -130,6 +131,59 @@ export async function updateAccount(idUser, data, logout) {
 
     } catch (error) {
         return error;
+    }
+
+}
+
+// Email
+export async function updateEmail(idUser, email, logout) {
+
+    try {
+        
+        const url = `${BASE_PATH}users/${idUser}`;
+
+        const params = {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({email})
+        };
+
+        const result = await authFetch(url, params, logout);
+
+        return result ? result : null;
+
+
+    } catch (error) {
+        return error;
+    }
+
+}
+
+// Contraseña
+export async function updatePassword(idUser, password, logout) {
+
+    try {
+        
+        const url = `${BASE_PATH}users/${idUser}`;
+
+        const params = {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({password})
+        };
+
+        const result = await authFetch(url, params, logout);
+
+        return result ? result : null;
+
+    } catch (error) {
+        
+        return error;
+
     }
 
 }
