@@ -3,25 +3,27 @@ import { Button, Form } from 'semantic-ui-react'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import useAuth from '../../../hooks/useAuth';
-import { createAddressApi } from '../../../api/address';
+import { createAddressApi, updateAddressApi } from '../../../api/address';
 import { toast } from 'react-toastify';
 
 export default function Address(props) {
 
-    const { setShowModal } = props;
+    const { setShowModal, setReloadAddress, newAddress, address } = props;
     const [loading, setLoading] = useState(false);
     const { auth, logout } = useAuth()
 
     const formik = useFormik({
-        initialValues: initialValues(),
+        initialValues: initialValues(address),
         validationSchema: yup.object(validationSchema()),
         onSubmit: (formData) => {
 
-            createAddress(formData);
+            // Si newAddress es true, significa que vamos a crear una nueva direccion, si es false, que vamos a actualizar una.
+            newAddress ? createAddress(formData) : updateAddress(formData)
 
         }
-    })
+    });
 
+    // Funcion para crear una nueva direccion
     const createAddress = async (formData) => {
         
         setLoading(true);
@@ -30,17 +32,47 @@ export default function Address(props) {
             user: auth.idUser
         };
 
-        const response = await createAddressApi(formData, logout);
+        const response = await createAddressApi(formDataTemp, logout);
         if( !response ) {
             
             toast.warning("Error al crear la dirección, inténtelo de nuevo");
             setLoading(false);
+
         }else {
 
             formik.resetForm();
+            setReloadAddress(true);
             setLoading(false);
             setShowModal(false);
 
+        }
+
+    }
+
+    // Funcion para actualizar una direccion existente
+    const updateAddress = async (formData) => {
+        
+        setLoading(true);
+
+        // Este formDataTemp se usa porque tenemos que añadirle a los datos del formulario, el id del usuario en el que se va a actualizar
+        const formDataTemp = {
+            ...formData,
+            user: auth.idUser
+        };
+
+        const response = await updateAddressApi(address._id, formDataTemp, logout);
+        if( !response ) {
+
+            toast.warning("Error al actualizar la dirección, inténtelo de nuevo");
+            setLoading(false);
+
+        }else {
+
+            formik.resetForm();
+            setReloadAddress(true);
+            setLoading(false);
+            setShowModal(false);
+            
         }
 
     }
@@ -124,7 +156,11 @@ export default function Address(props) {
             </Form.Group>
 
             <div className="actions">
-                <Button type="submit" className="submit" loading={loading}>Crear dirección</Button>
+                <Button type="submit" className="submit" loading={loading}>
+
+                    {newAddress ? "Crear dirección" : "Actualizar información"}
+
+                </Button>
             </div>
 
         </Form>
@@ -132,15 +168,15 @@ export default function Address(props) {
 }
 
 // Validación de datos
-function initialValues() {
+function initialValues(address) {
     return {
-        title: "",
-        name: "",
-        address: "",
-        city: "",
-        state: "",
-        postalCode: "",
-        phone: ""
+        title: address?.title || "",
+        name: address?.name || "",
+        address: address?.address || "",
+        city: address?.city || "",
+        state: address?.state || "",
+        postalCode: address?.postalCode || "",
+        phone: address?.phone || ""
     }
 
 }

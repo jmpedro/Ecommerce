@@ -9,6 +9,7 @@ import ChangePassword from '../components/Account/ChangePassword';
 import { Icon } from 'semantic-ui-react';
 import BasicModal from '../components/Modal/BasicModal'
 import Address from '../components/Account/Address';
+import ListAddress from '../components/Account/ListAddress/ListAddress';
 
 export default function Account() {
 
@@ -77,11 +78,16 @@ function Adresses() {
     const [showModal, setShowModal] = useState(false);
     const [titleModal, setTitleModal] = useState("");
     const [formModal, setFormModal] = useState(null);
+    const [reloadAddress, setReloadAddress] = useState(false);
 
     // Funcion para añadir una nueva direccion
-    const newAdress = (title) => {
+    const newAdress = (title, address) => {
         setShowModal(true);
-        setFormModal(<Address setShowModal={setShowModal} />)
+        setFormModal(<Address 
+                        setShowModal={setShowModal} 
+                        setReloadAddress={setReloadAddress}
+                        newAddress={address ? false : true}
+                        address={address || null} />)
         setTitleModal(title);
     }
 
@@ -97,7 +103,7 @@ function Adresses() {
 
             <div className="data">
 
-                Lista de direcciones...
+                <ListAddress reloadAddress={reloadAddress} setReloadAddress={setReloadAddress} newAdress={newAdress} />
 
             </div>
 
