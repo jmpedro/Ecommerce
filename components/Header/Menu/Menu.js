@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Menu as MenuWeb, Label, Grid, Icon } from 'semantic-ui-react';
+import { Container, Menu as MenuWeb, Grid, Icon } from 'semantic-ui-react';
 import Link from 'next/link';
 import BasicModal from '../../Modal/BasicModal';
+import { map } from 'lodash';
 import Auth from '../../Auth';
 import useAuth from '../../../hooks/useAuth';
 import { getMeApi } from '../../../api/users';
+import { getPlatformsApi } from '../../../api/platforms';
 
 export default function Menu() {
 
     const [showModal, setShowModal] = useState(false)
     const [titleModal, setTitleModal] = useState("Iniciar sesión");
+    const [platforms, setPlatforms] = useState([]);
     // declaramos un useState para setear los valores al usuario 
     const [user, setUser] = useState(undefined);
     // obtenemos los valores del inicio de sesion y de logout desde useAuth
@@ -23,7 +26,17 @@ export default function Menu() {
             setUser(response);
 
         })();
-    }, [auth])// Este useEffect se ejecutara cuando el usuario sea distinto(valor obtenido de auth)
+    }, [auth])// Este useEffect se ejecutara cuando el usuario sea distinto(valor obtenido de auth)ç
+
+    // hacemos un useEffect para obtener todas las plataformas de videojuegos
+    useEffect(() => {
+        ( async () => {
+
+            const response = await getPlatformsApi();
+            setPlatforms(response || []);
+
+        })();
+    }, []);
 
     const onShowModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false)
@@ -35,7 +48,7 @@ export default function Menu() {
 
                     <Grid.Column className="menu_left" width={6} >
 
-                        <Multiplatforms/>
+                        <Multiplatforms platforms={platforms}/>
 
                     </Grid.Column>
                     <Grid.Column className="menu_right" width={10} >
@@ -54,21 +67,23 @@ export default function Menu() {
 }
 
 // Plataformas
-function Multiplatforms() {
+function Multiplatforms(props) {
+
+    const { platforms } = props;
 
     return (
         <MenuWeb>
-            <Link href="/play-station">
-                <MenuWeb.Item as="a">Playstation</MenuWeb.Item>
-            </Link>
 
-            <Link href="/xbox">
-                <MenuWeb.Item as="a">Xbox</MenuWeb.Item>
-            </Link>
+            {map(platforms, (platform) => (
 
-            <Link href="/switch">
-                <MenuWeb.Item as="a">Switch</MenuWeb.Item>
-            </Link>
+                <Link href={`/games/${platform.url}`} key={platform._id}>
+
+                    <MenuWeb.Item as="a" name={platform.url}>{platform.title}</MenuWeb.Item>
+
+                </Link>
+
+            ))}
+
         </MenuWeb>
     );
 }
