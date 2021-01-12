@@ -27,7 +27,7 @@ export async function getGamesFromPlatformApi(platform, limit, start) {
 
     try {
         
-        const limitItems = `_limit=3`;
+        const limitItems = `_limit=${limit}`;
         const startItems = `_start=${start}`;// _start=(number) sirve para hacer la paginacion
         const sortItems = "_sort=createdAt:desc";
         const url = `${BASE_PATH}games?platform.url=${platform}&${limitItems}&${sortItems}&${startItems}`;
