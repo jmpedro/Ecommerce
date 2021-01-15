@@ -67,3 +67,20 @@ export async function getTotalGamesFromPlatformApi(platform) {
     }
 
 }
+
+/*** FUNCION PARA OBTENER EL JUEGO A TRAVÉS DE LA URL ***/
+export async function getGameByUrlApi(path) {
+
+    try {
+        
+        const url = `${BASE_PATH}games?url=${path}`;
+        const response = await fetch(url);
+        const result = await response.json();
+
+        return result[0];
+
+    } catch (error) {
+        return error;
+    }
+
+}

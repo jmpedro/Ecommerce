@@ -8,7 +8,7 @@ import ListGames from '../components/ListGames/ListGames';
 export default function Home() {
 
   const [games, setGames] = useState(null);
-  console.log(games);
+
   // Traemos los juegos de la base de datos
   useEffect(() => {
     (async () => {

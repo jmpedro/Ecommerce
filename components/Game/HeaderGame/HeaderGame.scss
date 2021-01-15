@@ -1,0 +1,108 @@
+.header-game {
+  &.ui.grid {
+    margin: 0;
+  }
+
+  &_title {
+    position: relative;
+    background-color: $background-dark-absolute;
+    color: $font-light;
+    padding: 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+
+    i.icon {
+      height: 100%;
+      font-size: 18px;
+      opacity: 1 !important;
+
+      &.like {
+        color: $primary;
+      }
+    }
+  }
+
+  &_delivery {
+    text-align: center;
+    font-weight: bold;
+    color: $primary;
+    padding: 10px 0;
+    font-size: 18px;
+  }
+
+  &_summary {
+    background-color: $background-light;
+    padding: 20px;
+    font-size: 15px;
+  }
+
+  &_buy {
+    background-color: $background-dark-absolute;
+    padding: 15px 20px;
+    color: $font-light;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+
+    &-price {
+      display: flex;
+      flex-direction: column;
+
+      > p {
+        color: $font-grey;
+        margin: 0;
+      }
+
+      &-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+
+        > p {
+          margin: 0;
+          font-weight: bold;
+
+          &:first-of-type {
+            font-size: 25px;
+          }
+
+          &:last-of-type {
+            font-size: 40px;
+            color: $primary;
+          }
+        }
+      }
+    }
+
+    &-btn.ui.button {
+      position: relative;
+      background-color: $primary !important;
+      color: $font-light !important;
+      padding: 19px 0;
+      width: 200px;
+      font-size: 18px;
+      transition: 0.2s;
+      left: -20px;
+
+      &:hover {
+        left: -10px;
+      }
+
+      &:after {
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        top: 10px;
+        right: -15px;
+        background-color: $primary;
+        border-radius: 10px 4px 10px 0;
+        -ms-transform: rotate(45deg) skew(15deg, 15deg);
+        transform: rotate(45deg) skew(15deg, 15deg);
+        content: "";
+      }
+    }
+  }
+}

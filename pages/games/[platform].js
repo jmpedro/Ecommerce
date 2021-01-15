@@ -7,7 +7,7 @@ import { Loader } from 'semantic-ui-react';
 import { size } from 'lodash';
 import Pagination from '../../components/Pagination';
 
-const limitPerPage = 3;
+const limitPerPage = 10;
 
 export default function Platform() {
 
