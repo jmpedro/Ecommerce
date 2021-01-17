@@ -51,7 +51,7 @@ export default function ListGames(props) {
 function Game(props) {
 
     const { game } = props;
-    console.log(game.url);
+    
 
     return(
         
