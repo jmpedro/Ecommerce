@@ -84,3 +84,24 @@ export async function getGameByUrlApi(path) {
     }
 
 }
+
+/*** FUNCION PARA MOSTRAR LOS JUEGOS DESDE LA BARRA DE BUSQUEDA ***/
+export async function searchGamesApi(title) {
+
+    try {
+        
+        const url = `${BASE_PATH}games?_q=${title}`;
+
+        const response = await fetch(url);
+        const result = response.json();
+
+        return result;
+
+    } catch (error) {
+        
+        console.log(error);
+        return null;
+
+    }
+
+}
