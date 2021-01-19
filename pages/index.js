@@ -22,9 +22,6 @@ export default function Home() {
 
   return (
     <BasicLayout className="home">
-
-      {/* Mientras que games devuelva nulo, se estará mostrando el Loader */}
-      {!games && <Loader active><h3>Cargando juegos</h3></Loader>}
       
       {/* Si games no es nulo, pero su tamaño es igual a 0, significa que no hay juegos */}
       {games && size(games) === 0 && (

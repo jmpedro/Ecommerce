@@ -1,9 +1,10 @@
 import { size } from 'lodash';
 import React, { useState, useEffect } from 'react'
 import { Button, Grid, Icon, Image } from 'semantic-ui-react';
-import { isFavoriteApi } from '../../../api/favorite';
+import { addToFavoriteApi, deleteGameFromFavoriteApi, isFavoriteApi } from '../../../api/favorite';
 import  useAuth  from '../../../hooks/useAuth';
 import classNames from 'classnames';
+import { toast } from 'react-toastify';
 
 export default function HeaderGame(props) {
 
@@ -32,6 +33,7 @@ function Info(props) {
     const { title, summary, price, discount } = game;
     const { auth, logout } = useAuth();
     const [isFavorite, setIsFavorite] = useState(false);
+    const [reloadFavorites, setReloadFavorites] = useState(false);
     console.log(isFavorite);
 
     useEffect(() => {
@@ -39,20 +41,36 @@ function Info(props) {
 
             const response = await isFavoriteApi(auth.idUser, game.id, logout);
             
+            setReloadFavorites(false);
+
             return size(response) > 0 ? setIsFavorite(true) : setIsFavorite(false);
 
         })();
-    }, [game]);
+    }, [game, reloadFavorites]);
 
-    const addToFavorites = () => {
+    const addToFavorites = async () => {
 
-        console.log("Añadir a favoritos");
+        if( auth ) {
+
+            const response = await addToFavoriteApi(auth.idUser, game.id, logout);
+
+            response && toast.success("Este juego ha sido añadido a favoritos");
+
+            setReloadFavorites(true);
+
+        }
 
     }
 
-    const deleteFromFavorites = () => {
+    const deleteFromFavorites = async () => {
 
-        console.log("Borrar de favoritos");
+        if( auth ) {
+
+            await deleteGameFromFavoriteApi(auth.idUser, game.id, logout);
+
+            setReloadFavorites(true);
+
+        }
 
     }
     
@@ -78,7 +96,7 @@ function Info(props) {
                     <div className="header-game_buy-price-actions">
 
                         <p>-{discount}%</p>
-                        <p>{price - Math.floor(price * discount) / 100}€</p>
+                        <p>{(price - Math.floor(price * discount) / 100).toFixed(2)}€</p>
 
                     </div>
 
