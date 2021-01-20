@@ -5,6 +5,7 @@ import { addToFavoriteApi, deleteGameFromFavoriteApi, isFavoriteApi } from '../.
 import  useAuth  from '../../../hooks/useAuth';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
+import useCart from '../../../hooks/useCart';
 
 export default function HeaderGame(props) {
 
@@ -30,11 +31,12 @@ export default function HeaderGame(props) {
 function Info(props) {
 
     const { game } = props;
-    const { title, summary, price, discount } = game;
+    const { title, summary, price, discount, url } = game;
     const { auth, logout } = useAuth();
+    const { addProductsCart } = useCart();
     const [isFavorite, setIsFavorite] = useState(false);
     const [reloadFavorites, setReloadFavorites] = useState(false);
-    console.log(isFavorite);
+
 
     useEffect(() => {
         (async () => {
@@ -48,6 +50,7 @@ function Info(props) {
         })();
     }, [game, reloadFavorites]);
 
+    // Funcion para añadir a favoritos
     const addToFavorites = async () => {
 
         if( auth ) {
@@ -62,6 +65,7 @@ function Info(props) {
 
     }
 
+    // Funcion para eliminar de favoritos
     const deleteFromFavorites = async () => {
 
         if( auth ) {
@@ -73,7 +77,6 @@ function Info(props) {
         }
 
     }
-    
 
     return (
         <>
@@ -101,7 +104,7 @@ function Info(props) {
                     </div>
 
                 </div>
-                <Button className="header-game_buy-btn">Comprar</Button>
+                <Button className="header-game_buy-btn" onClick={() => addProductsCart(url)}>Comprar</Button>
 
             </div>
 

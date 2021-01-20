@@ -1,4 +1,4 @@
-import { crateContext, createContext } from 'react';
+import { createContext } from 'react';
 
 const AuthContext = createContext({
 

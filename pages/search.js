@@ -54,5 +54,6 @@ export default function search() {
             {size(games) > 0 && <ListGames games={games} />}
             
         </BasicLayout>
+        
     )
 }

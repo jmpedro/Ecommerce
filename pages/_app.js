@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import AuthContext from '../context/AuthContext';
 import { setToken, getToken, deleteToken } from '../api/token';
 import jwtDecode from 'jwt-decode';
@@ -10,12 +10,16 @@ import 'react-toastify/dist/ReactToastify.css';
 // Librerias para usar carousel
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import CartContext from '../context/CartContext';
+import { getProductsCart, addProductsCart, countProductsCart } from '../api/cart';
 
 
 export default function MyApp({ Component, pageProps }) {
 
   const [auth, setAuth] = useState(undefined);
   const [reloadUser, setReloadUser] = useState(false);
+  const [totalProductsCart, setTotalProductsCart] = useState(0);
+  const [reloadCart, setReloadCart] = useState(false);
   const router = useRouter();
 
   // En el useEffect obtenemos el token del local storage para usarlo mas abajo en la funcion de authData
@@ -71,25 +75,66 @@ export default function MyApp({ Component, pageProps }) {
       login,
       logout,
       setReloadUser
-    }), [auth])
+    }), [auth]);
+
+
+  /* A PARTIR DE AQUÍ COMENZAMOS A PROGRAMAR LA LISTA DEL CARRITO */
+
+  // Este useEffect se ejecutara cada vez que añadamos un juego al carrito
+  useEffect(() => {
+
+    setTotalProductsCart(countProductsCart());
+    setReloadCart(false);
+
+  }, [reloadCart, auth])
+
+  const addProducts = product => {
+
+    const token = getToken();
+    if(token) {
+      
+      addProductsCart(product);
+      setReloadCart(true);
+      
+    }else {
+
+      toast.warning("Para comprar un juego debes iniciar sesión");
+
+    }
+
+  }
+
+  const cartData = useMemo(
+    () => ({
+      productsCart: totalProductsCart,
+      addProductsCart: addProducts,
+      getProductsCart: getProductsCart,
+      removeProductsCart: () => null,
+      removeAllProductsCart: () => null
+    }), [totalProductsCart]);
   
   if( auth === undefined ) return null;
 
-  return (<AuthContext.Provider value={authData}>
-  
-    <Component {...pageProps} />
+  return (
+    <AuthContext.Provider value={authData}>
+    
+      <CartContext.Provider value={cartData}>
 
-    <ToastContainer 
-      position="top-right"
-      autoClose={4000}
-      hideProgressBar
-      newestOnTop
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss={false}
-      draggable
-      pauseOnHover />
-  
-  </AuthContext.Provider>)
+        <Component {...pageProps} />
+
+        <ToastContainer 
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover />
+
+      </CartContext.Provider>
+    
+    </AuthContext.Provider>)
 }
 

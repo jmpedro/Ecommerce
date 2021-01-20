@@ -26,7 +26,6 @@ export default function Game() {
     return (
         <BasicLayout>
             
-
             <HeaderGame game={game} />
 
             <TabsGame game={game} />

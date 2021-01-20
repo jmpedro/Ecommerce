@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { size } from 'lodash';
-import { Loader } from 'semantic-ui-react'
 import BasicLayout from "../layouts/BasicLayout";
 import { getLastGamesApi } from '../api/game';
 import ListGames from '../components/ListGames/ListGames';

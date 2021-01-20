@@ -5,6 +5,7 @@ import useAuth from '../hooks/useAuth';
 import { getFavoritesApi } from '../api/favorite';
 import { Loader } from 'semantic-ui-react';
 import ListGames from '../components/ListGames';
+import useCart from '../hooks/useCart';
 
 export default function whislist() {
 

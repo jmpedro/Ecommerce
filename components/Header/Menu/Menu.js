@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Menu as MenuWeb, Grid, Icon } from 'semantic-ui-react';
+import { Container, Menu as MenuWeb, Grid, Icon, Label } from 'semantic-ui-react';
 import Link from 'next/link';
 import BasicModal from '../../Modal/BasicModal';
 import { map } from 'lodash';
 import Auth from '../../Auth';
 import useAuth from '../../../hooks/useAuth';
+import useCart from '../../../hooks/useCart';
 import { getMeApi } from '../../../api/users';
 import { getPlatformsApi } from '../../../api/platforms';
 
@@ -17,6 +18,7 @@ export default function Menu() {
     const [user, setUser] = useState(undefined);
     // obtenemos los valores del inicio de sesion y de logout desde useAuth
     const { auth, logout } = useAuth();
+    
 
     // hacemos un useEffect asincronico y que se llame a si mismo para obtener los datos del usuario 
     useEffect(() => {
@@ -92,6 +94,7 @@ function Multiplatforms(props) {
 function Options(props) {
 
     const { onShowModal, user, logout } = props;
+    const { productsCart } = useCart();
 
     return (
         <MenuWeb>
@@ -126,6 +129,12 @@ function Options(props) {
             <Link href="/cart">
                <MenuWeb.Item as="a" className="m-0">
                    <Icon name="cart"/>
+                        {productsCart > 0 && (
+                            <Label color="red" floating circular>
+                                {productsCart}    
+                            </Label>
+                        )}
+                   
                    
                 </MenuWeb.Item>
             </Link>
