@@ -28,6 +28,8 @@ export default function AddressShipping(props) {
         })();
     }, [auth, addresses]);
 
+    if( addresses === null ) return null;
+
     return (
         <div className="addresses-shipping">
             <div className="title">Dirección de envío</div>

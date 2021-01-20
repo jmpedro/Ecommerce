@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import BasicLayout from '../layouts/BasicLayout';
+import { Loader } from 'semantic-ui-react';
 import useCart from '../hooks/useCart';
 import { getGameByUrlApi } from '../api/game';
 import SummaryCart from '../components/Cart/SummaryCart/SummaryCart';
 import AddressShipping from '../components/Cart/AddressShipping/AddressShipping';
-import { Loader } from 'semantic-ui-react';
+import Payment from '../components/Cart/Payment';
 
 export default function cart() {
 
@@ -50,7 +51,9 @@ function FullCart(props) {
     return (
         <BasicLayout className="empty-cart">
             {!productsData ? <Loader active>Cargando carrito</Loader> : <SummaryCart products={productsData} reloadCart={reloadCart} setReloadCart={setReloadCart} />}
-            <AddressShipping setAddress={setAddress}/>
+            {productsData && <AddressShipping setAddress={setAddress}/>}
+
+            { address && <Payment address={address} products={productsData} />}
         </BasicLayout>
     );
 }
