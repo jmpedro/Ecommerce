@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import BasicLayout from '../layouts/BasicLayout';
 import useCart from '../hooks/useCart';
 import { getGameByUrlApi } from '../api/game';
+import SummaryCart from '../components/Cart/SummaryCart/SummaryCart';
+import AddressShipping from '../components/Cart/AddressShipping/AddressShipping';
+import { Loader } from 'semantic-ui-react';
 
 export default function cart() {
 
@@ -23,8 +26,9 @@ function FullCart(props) {
 
     const { products } = props;
     const [productsData, setProductsData] = useState(null);
-    console.log(productsData);
-
+    const [reloadCart, setReloadCart] = useState(false);
+    const [address, setAddress] = useState(null);
+    
     useEffect(() => {
         (async () => {
 
@@ -38,13 +42,15 @@ function FullCart(props) {
             }
 
             setProductsData(productTemp);
+            setReloadCart(false);
 
         })();
-    }, [])
+    }, [reloadCart])
 
     return (
-        <BasicLayout className="full-cart">
-            <h2>Carrito</h2>
+        <BasicLayout className="empty-cart">
+            {!productsData ? <Loader active>Cargando carrito</Loader> : <SummaryCart products={productsData} reloadCart={reloadCart} setReloadCart={setReloadCart} />}
+            <AddressShipping setAddress={setAddress}/>
         </BasicLayout>
     );
 }

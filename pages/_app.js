@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CartContext from '../context/CartContext';
-import { getProductsCart, addProductsCart, countProductsCart } from '../api/cart';
+import { getProductsCart, addProductsCart, countProductsCart, removeProductCart } from '../api/cart';
 
 
 export default function MyApp({ Component, pageProps }) {
@@ -82,12 +82,13 @@ export default function MyApp({ Component, pageProps }) {
 
   // Este useEffect se ejecutara cada vez que añadamos un juego al carrito
   useEffect(() => {
-
+    
     setTotalProductsCart(countProductsCart());
     setReloadCart(false);
 
   }, [reloadCart, auth])
 
+  // Funcion para añadir los productos
   const addProducts = product => {
 
     const token = getToken();
@@ -104,12 +105,20 @@ export default function MyApp({ Component, pageProps }) {
 
   }
 
+  // Funcion para eliminar un producto
+  const removeProduct = product => {
+    
+    removeProductCart(product);
+    setReloadCart(true);
+
+  }
+
   const cartData = useMemo(
     () => ({
       productsCart: totalProductsCart,
       addProductsCart: addProducts,
       getProductsCart: getProductsCart,
-      removeProductsCart: () => null,
+      removeProductsCart: removeProduct,
       removeAllProductsCart: () => null
     }), [totalProductsCart]);
   

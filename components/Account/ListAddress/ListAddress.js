@@ -11,7 +11,6 @@ export default function ListAddress(props) {
     const { reloadAddress, setReloadAddress, newAdress } = props;
     const [addresses, setAddresses] = useState(null);
     const { auth, logout } = useAuth();
-    console.log(addresses);
 
     useEffect(() => {
         (async () => {

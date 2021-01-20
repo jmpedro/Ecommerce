@@ -1,4 +1,4 @@
-import { includes, size } from "lodash";
+import { includes, remove, size } from "lodash";
 import { toast } from "react-toastify";
 import { BASE_PATH, CART } from "../utils/constants";
 
@@ -65,6 +65,29 @@ export function countProductsCart() {
     }else {
 
         return size(cart);
+
+    }
+
+}
+
+/**** FUNCION PARA ELIMINAR UN PRODUCTO DEL CARRITO ****/
+export function removeProductCart(product) {
+
+    const cart = getProductsCart();
+
+    // Cuando coincida el producto que hemos pasado por parámetro con la lista de todos ellos, se eliminará de la lista.
+    remove(cart, (item) => {
+        return item === product
+    });
+
+    // Si al borrar el producto, la lista es 0, se eliminará CART, ya que no hay nada, si no, actualizamos la lista sin el producto nuevo
+    if( size(cart) > 0 ) {
+        
+        localStorage.setItem(CART, cart);
+
+    }else {
+
+        localStorage.removeItem(CART);
 
     }
 
