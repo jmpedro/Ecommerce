@@ -11,6 +11,7 @@
 @import "../pages/whislist.scss";
 @import "../pages/search.scss";
 @import "../pages/cart.scss";
+@import "../pages/orders.scss";
 
 // Components
 @import "../components/Header/header.scss";
@@ -30,3 +31,5 @@
 @import "../components/Cart/SummaryCart/SummaryCart.scss";
 @import "../components/Cart/AddressShipping/AddressShipping.scss";
 @import "../components/Cart/Payment/Payment.scss";
+@import "../components/Cart/Payment/FormPayment/FormPayment.scss";
+@import "../components/Orders/Order/Order.scss";

@@ -2,6 +2,7 @@ import React from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { STRIPE_TOKEN } from '../../../utils/constants';
+import FormPayment from './FormPayment/FormPayment';
 
 // Conectamos el cliente con Stripe para hacer el acuerdo de cobro
 const stripePromise = loadStripe(STRIPE_TOKEN);
@@ -18,7 +19,7 @@ export default function Payment(props) {
 
             <div className="data">
                 <Elements stripe={stripePromise}>
-                    <p>FORMULARIO</p>
+                    <FormPayment products={products} address={address} />
                 </Elements>
             </div>
         </div>

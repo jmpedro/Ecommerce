@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CartContext from '../context/CartContext';
-import { getProductsCart, addProductsCart, countProductsCart, removeProductCart } from '../api/cart';
+import { getProductsCart, addProductsCart, countProductsCart, removeProductCart, removeAllProductsCart } from '../api/cart';
 
 
 export default function MyApp({ Component, pageProps }) {
@@ -119,7 +119,7 @@ export default function MyApp({ Component, pageProps }) {
       addProductsCart: addProducts,
       getProductsCart: getProductsCart,
       removeProductsCart: removeProduct,
-      removeAllProductsCart: () => null
+      removeAllProductsCart: removeAllProductsCart
     }), [totalProductsCart]);
   
   if( auth === undefined ) return null;
