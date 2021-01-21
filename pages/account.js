@@ -10,6 +10,7 @@ import { Icon } from 'semantic-ui-react';
 import BasicModal from '../components/Modal/BasicModal'
 import Address from '../components/Account/Address';
 import ListAddress from '../components/Account/ListAddress/ListAddress';
+import Seo from '../components/Seo';
 
 export default function Account() {
 
@@ -38,6 +39,7 @@ export default function Account() {
     return (
         <BasicLayout className="account">
 
+            <Seo title="Mi cuenta" />
             <Configuration user={user} logout={logout} setReloadUser={setReloadUser} />
             <Adresses />
 

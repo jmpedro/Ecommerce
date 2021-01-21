@@ -3,6 +3,7 @@ import { size } from 'lodash';
 import BasicLayout from "../layouts/BasicLayout";
 import { getLastGamesApi } from '../api/game';
 import ListGames from '../components/ListGames/ListGames';
+import Seo from '../components/Seo';
 
 export default function Home() {
 
@@ -21,7 +22,7 @@ export default function Home() {
 
   return (
     <BasicLayout className="home">
-      
+      <Seo title="Gaming | Inicio" />
       {/* Si games no es nulo, pero su tamaño es igual a 0, significa que no hay juegos */}
       {games && size(games) === 0 && (
         <div><h3>Lo sentimos, no hay juegos disponibles en este momento</h3></div>

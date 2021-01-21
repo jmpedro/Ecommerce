@@ -5,6 +5,7 @@ import { getOrdersApi } from '../api/orders';
 import { map, size } from 'lodash';
 import { Grid, Loader } from 'semantic-ui-react';
 import Order from '../components/Orders/Order/Order';
+import Seo from '../components/Seo';
 
 export default function Orders() {
 
@@ -16,8 +17,12 @@ export default function Orders() {
     useEffect(() => {
         (async () => {
 
-            const response = await getOrdersApi(auth.idUser, logout);
-            setOrders(response || []);
+            if( auth ) {
+
+                const response = await getOrdersApi(auth.idUser, logout);
+                setOrders(response || []);
+
+            }
 
         } )();
     }, [auth]);
@@ -26,6 +31,8 @@ export default function Orders() {
 
     return (
         <BasicLayout className="orders">
+
+            <Seo title="Mis pedidos" />
 
             <div className="orders_block">
 
@@ -54,8 +61,8 @@ function OrderList(props) {
     return (
         <Grid>
             {map(orders, (order) => (
-                <Grid.Column mobile="16" tablet="8" computer="8" >
-                    <Order order={order} />
+                <Grid.Column mobile="16" tablet="8" computer="8" key={order.id} >
+                    <Order order={order}  />
                 </Grid.Column>
             ))}
         </Grid>

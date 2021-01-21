@@ -6,6 +6,7 @@ import { getGameByUrlApi } from '../api/game';
 import SummaryCart from '../components/Cart/SummaryCart/SummaryCart';
 import AddressShipping from '../components/Cart/AddressShipping/AddressShipping';
 import Payment from '../components/Cart/Payment';
+import Seo from '../components/Seo';
 
 export default function cart() {
 
@@ -18,6 +19,7 @@ export default function cart() {
 function EmptyCart() {
     return (
         <BasicLayout className="empty-cart">
+            <Seo title="Carrito" />
             <h2>No hay productos en el carrito</h2>
         </BasicLayout>
     );
@@ -50,6 +52,7 @@ function FullCart(props) {
 
     return (
         <BasicLayout className="empty-cart">
+            <Seo title="Carrito" />
             {!productsData ? <Loader active>Cargando carrito</Loader> : <SummaryCart products={productsData} reloadCart={reloadCart} setReloadCart={setReloadCart} />}
             {productsData && <AddressShipping setAddress={setAddress}/>}
 

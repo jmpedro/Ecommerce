@@ -6,6 +6,7 @@ import { getFavoritesApi } from '../api/favorite';
 import { Loader } from 'semantic-ui-react';
 import ListGames from '../components/ListGames';
 import useCart from '../hooks/useCart';
+import Seo from '../components/Seo';
 
 export default function whislist() {
 
@@ -42,6 +43,8 @@ export default function whislist() {
 
     return (
         <BasicLayout className="whislist">
+
+            <Seo title="Favoritos" />
             
             <div className="whislist_block">
 
